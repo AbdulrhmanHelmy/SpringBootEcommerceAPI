@@ -18,7 +18,7 @@ public class CategoryController {
     private final ICategoryService categoryService;
 
     // Create a new category
-    @PostMapping
+    @PostMapping("/admin")
     public ResponseEntity<API_Response> createCategory(@RequestBody CategoryDto categoryDto) {
         Category created = categoryService.create(categoryDto);
         API_Response response = new API_Response();
@@ -28,7 +28,7 @@ public class CategoryController {
     }
 
     // Update an existing category
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<API_Response> updateCategory(@PathVariable Long id,
                                                        @RequestBody CategoryDto categoryDto) {
         Category updated = categoryService.update(id, categoryDto);
@@ -39,7 +39,7 @@ public class CategoryController {
     }
 
     // Delete a category
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<API_Response> deleteCategory(@PathVariable Long id) {
         categoryService.delete(id);
         API_Response response = new API_Response();
@@ -58,7 +58,6 @@ public class CategoryController {
         return ResponseEntity.ok(response);
     }
 
-    // Get category by ID
     @GetMapping("/{id}")
     public ResponseEntity<API_Response> getCategoryById(@PathVariable Long id) {
         Category category = categoryService.findById(id);

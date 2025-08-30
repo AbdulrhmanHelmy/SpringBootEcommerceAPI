@@ -44,7 +44,7 @@ public class ProductController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PostMapping
+    @PostMapping("/admin")
     public ResponseEntity<API_Response> addProductData(@RequestBody ProductDto productDto) {
         API_Response apiResponse = new API_Response();
         apiResponse.setData(productService.createProduct(productDto));
@@ -52,7 +52,7 @@ public class ProductController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PostMapping("/img/{id}")
+    @PostMapping("/admin/img/{id}")
     public ResponseEntity<API_Response> addProductIMG(@PathVariable Long id, @RequestParam("image") MultipartFile file) throws IOException {
         API_Response apiResponse = new API_Response();
         ImageDto imageDto = new ImageDto(file);
@@ -61,7 +61,7 @@ public class ProductController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/{id}")
     public ResponseEntity<API_Response> deleteProduct(@PathVariable Long id) throws IOException {
         API_Response apiResponse = new API_Response();
         productService.deleteProduct(id);
@@ -70,7 +70,7 @@ public class ProductController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @DeleteMapping("/img/{id}/{imgId}")
+    @DeleteMapping("/admin/img/{id}/{imgId}")
     public ResponseEntity<API_Response> deleteImage(@PathVariable Long id, @PathVariable Long imgId ) throws IOException {
         API_Response apiResponse = new API_Response();
         productService.deleteImageFromProduct(id,imgId);
@@ -88,14 +88,12 @@ public class ProductController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/admin/{id}")
     public ResponseEntity<API_Response> updateProduct(@PathVariable Long id, @RequestBody ProductDto productDto) throws IOException {
         API_Response apiResponse = new API_Response();
         apiResponse.setData(productService.updateProduct(id, productDto));
         apiResponse.setMessage("Product Updated Successfully");
         return ResponseEntity.ok(apiResponse);
     }
-
-
 
 }

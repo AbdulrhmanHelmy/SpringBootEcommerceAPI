@@ -4,7 +4,6 @@ import com.helmy.ecommerce.DTO.CategoryDto;
 import com.helmy.ecommerce.Exeption.ResourceNotFound;
 import com.helmy.ecommerce.Model.Category;
 import com.helmy.ecommerce.Repository.CategoryRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

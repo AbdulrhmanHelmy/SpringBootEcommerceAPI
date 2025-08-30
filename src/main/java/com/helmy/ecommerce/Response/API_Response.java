@@ -1,9 +1,6 @@
 package com.helmy.ecommerce.Response;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Data
 public class API_Response {
     private String message;
