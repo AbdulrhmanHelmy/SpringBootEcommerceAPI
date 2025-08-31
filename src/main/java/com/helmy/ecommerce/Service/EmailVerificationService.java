@@ -56,7 +56,8 @@ public class EmailVerificationService {
 
     public boolean verifyToken(String token) {
         var optionalToken = tokenRepository.findByToken(token);
-        if (optionalToken.isEmpty()) return false;
+        if (optionalToken.isEmpty())
+            return false;
 
         EmailVerificationToken verificationToken = optionalToken.get();
 

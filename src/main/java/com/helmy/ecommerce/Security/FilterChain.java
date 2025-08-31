@@ -23,8 +23,10 @@ public class FilterChain {
         return http.authorizeHttpRequests(
 
                         configure->configure
+                                .requestMatchers("/cart", "/cart/**").hasAnyRole("USER","ADMIN")
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/api/auth/verify").permitAll()
+                                .requestMatchers("/api/cart", "/api/cart/**").permitAll()
                                 .requestMatchers("/categories/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/product/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/categories/**").permitAll()

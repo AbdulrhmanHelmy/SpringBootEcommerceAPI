@@ -32,15 +32,6 @@ public class User implements UserDetails {
 
 
 
-//    @OneToOne(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-//    private Cart cart;
-//
-//    @OneToOne(mappedBy = "user",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-//    private Order order;
-
-//    private List<Product> favlist;
-
-
 
     public User() {
     }

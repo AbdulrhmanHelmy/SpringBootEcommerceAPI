@@ -10,13 +10,15 @@ import com.helmy.ecommerce.Service.EmailVerificationService;
 import com.helmy.ecommerce.Util.JWTUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-public class UserService implements IUserService{
+public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -27,7 +29,7 @@ public class UserService implements IUserService{
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JWTUtil jwtUtil, SessionRepository sessionRepository, EmailVerificationService emailVerificationService) {
         this.userRepository = userRepository;
-        this.passwordEncoder=passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.sessionRepository = sessionRepository;
@@ -50,12 +52,16 @@ public class UserService implements IUserService{
     }
 
     @Override
-    public String Login(UserDTO userDTO){
+    public String Login(UserDTO userDTO) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userDTO.getEmail(),userDTO.getPassword()));
-        User user=userRepository.findByEmail(userDTO.getEmail()).orElseThrow(
-                ()->new ResourceNotFound("User Not Found"));
-        String token=jwtUtil.generateToken(user);
+                new UsernamePasswordAuthenticationToken(userDTO.getEmail(), userDTO.getPassword()));
+        User user = userRepository.findByEmail(userDTO.getEmail()).orElseThrow(
+                () -> new ResourceNotFound("User Not Found"));
+        if (!user.getIsVerified()) {
+            throw new RuntimeException("Account is not verified");
+        }
+
+        String token = jwtUtil.generateToken(user);
         Session session = new Session();
         session.setUser(user);
         session.setToken(token);
@@ -63,6 +69,22 @@ public class UserService implements IUserService{
         session.setEndTime(LocalDateTime.now().plusHours(24));
         sessionRepository.save(session);
         return token;
+    }
+
+    public User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new RuntimeException("No authenticated user found");
+        }
+
+        Object principal = authentication.getPrincipal();
+
+        if (principal instanceof User) {
+            return (User) principal;
+        }
+
+        throw new RuntimeException("Principal is not of type User: " + principal.getClass());
     }
 
 }

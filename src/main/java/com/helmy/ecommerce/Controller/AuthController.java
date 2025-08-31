@@ -36,6 +36,7 @@ public class AuthController {
         boolean verified = verificationService.verifyToken(token);
         return verified ? "Account verified successfully!" : "Invalid or expired token!";
     }
+
 }
 
 
