@@ -1,7 +1,6 @@
 package com.helmy.ecommerce.Model;
 
-import com.helmy.ecommerce.Model.Cart.Cart;
-import com.helmy.ecommerce.Model.Order.Order;
+import com.helmy.ecommerce.Model.ENUMS.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+
 @Setter
 @Entity
 @Getter

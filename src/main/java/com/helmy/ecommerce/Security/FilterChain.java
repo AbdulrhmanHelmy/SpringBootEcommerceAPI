@@ -25,6 +25,8 @@ public class FilterChain {
                         configure->configure
                                 .requestMatchers("/cart", "/cart/**").hasAnyRole("USER","ADMIN")
                                 .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/favourite", "/favourite/**").hasAnyRole("USER","ADMIN")
+
                                 .requestMatchers("/api/auth/verify").permitAll()
                                 .requestMatchers("/api/cart", "/api/cart/**").permitAll()
                                 .requestMatchers("/categories/admin/**").hasRole("ADMIN")
