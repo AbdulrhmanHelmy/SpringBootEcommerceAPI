@@ -3,11 +3,13 @@ package com.helmy.ecommerce.Model.Order;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.helmy.ecommerce.Model.Coupon;
 import com.helmy.ecommerce.Model.ENUMS.OrderStatus;
-import com.helmy.ecommerce.Model.ENUMS.PaymentMethod;
+import com.helmy.ecommerce.Model.Payment;
 import com.helmy.ecommerce.Model.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,8 +25,8 @@ public class Order {
     @JsonIgnore
     private User user;
 
-    @OneToMany
-    private List<OrderItem> orderItems;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems = new ArrayList<>();
 
 
     @ManyToOne
@@ -38,12 +40,10 @@ public class Order {
 
     private Double totalAmount;
 
-    private OrderStatus orderStatus=OrderStatus.NEW;
+    private OrderStatus orderStatus = OrderStatus.NEW;
 
-    private PaymentMethod paymentMethod;
-
-
-
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
 
 
 }

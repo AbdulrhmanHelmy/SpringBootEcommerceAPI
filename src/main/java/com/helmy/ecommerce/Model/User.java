@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -24,12 +25,10 @@ public class User implements UserDetails {
     private String username;
     private String password;
     private Role role = Role.USER;
-
-    private Boolean isActive=true;
+    private Double balance = 0.0;
+    private Boolean isActive = true;
     @Column(nullable = false)
     private Boolean isVerified = false;
-
-
 
 
     public User() {
@@ -41,7 +40,6 @@ public class User implements UserDetails {
         this.password = password;
         this.role = role;
     }
-
 
 
     @Override
@@ -56,7 +54,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_"+role.name()));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
 
@@ -77,7 +75,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isActive ;
+        return isActive;
     }
 
     @Override

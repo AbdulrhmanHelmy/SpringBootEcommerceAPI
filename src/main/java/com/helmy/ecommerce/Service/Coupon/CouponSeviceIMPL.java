@@ -3,8 +3,10 @@ package com.helmy.ecommerce.Service.Coupon;
 import com.helmy.ecommerce.DTO.CouponDto;
 import com.helmy.ecommerce.Exeption.ResourceNotFound;
 import com.helmy.ecommerce.Model.Coupon;
+import com.helmy.ecommerce.Model.ENUMS.DiscountType;
 import com.helmy.ecommerce.Model.Order.Order;
 import com.helmy.ecommerce.Repository.CouponRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -18,7 +20,11 @@ public class CouponSeviceIMPL implements CouponService {
     }
 
     @Override
+    @Transactional
     public Coupon create(CouponDto couponDto) {
+        if (couponRepository.findByCode(couponDto.getCode().toUpperCase()).isPresent()) {
+            throw new IllegalArgumentException("Coupon code already exists");
+        }
         Coupon coupon = new Coupon();
         coupon.setCode(couponDto.getCode().toUpperCase());
         coupon.setDiscountType(couponDto.getDiscountType());
@@ -26,20 +32,19 @@ public class CouponSeviceIMPL implements CouponService {
         coupon.setMaxUsage(couponDto.getMaxUsage());
         coupon.setMinOrderValue(couponDto.getMinOrderValue());
         coupon.setExpiryDate(couponDto.getExpiryDate());
-        if (couponRepository.findByCode(couponDto.getCode().toUpperCase()).isPresent()) {
-            throw new IllegalArgumentException("Coupon code already exists");
-        }
-
         return couponRepository.save(coupon);
     }
 
     @Override
+    @Transactional
     public Coupon get(String code) {
-        return couponRepository.findByCode(code.toUpperCase()).orElseThrow(() -> new ResourceNotFound(" This Code Does Not Exist"));
+        return couponRepository.findByCode(code.toUpperCase())
+                .orElseThrow(() -> new ResourceNotFound(" This Code Does Not Exist"));
     }
 
     @Override
-    public Coupon use(Order order, String code) {
+    @Transactional
+    public Double use(Order order, String code) {
         Coupon coupon = get(code);
 
         if (order.getTotalAmount() < coupon.getMinOrderValue()) {
@@ -56,7 +61,21 @@ public class CouponSeviceIMPL implements CouponService {
 
 
         coupon.setUsedCount(coupon.getUsedCount() + 1);
-        return couponRepository.save(coupon);
+        couponRepository.save(coupon);
+
+        if (coupon.getDiscountType().equals(DiscountType.PERCENTAGE)) {
+            return order.getTotalAmount() * coupon.getDiscountValue() / 100;
+        } else {
+            return coupon.getDiscountValue();
+        }
+    }
+
+    @Override
+    @Transactional
+    public void cancel(String code) {
+        Coupon c=get(code);
+        c.setUsedCount(c.getUsedCount()-1);
+        couponRepository.save(c);
     }
 
 }

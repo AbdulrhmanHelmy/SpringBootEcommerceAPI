@@ -4,6 +4,7 @@ import com.helmy.ecommerce.Model.FavList;
 import com.helmy.ecommerce.Model.Product;
 import com.helmy.ecommerce.Model.User;
 import com.helmy.ecommerce.Repository.FavListRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class FavListServiceIMPL implements FavListService {
     }
 
     @Override
+    @Transactional
     public FavList addItem(User user, Product product) {
         FavList favList = favListRepository.findByUser(user);
         favList.addItem(product);
@@ -37,6 +39,7 @@ public class FavListServiceIMPL implements FavListService {
     }
 
     @Override
+    @Transactional
     public FavList deleteItem(User user, Product product) {
         FavList favList = favListRepository.findByUser(user);
         favList.removeItem(product);
@@ -44,6 +47,7 @@ public class FavListServiceIMPL implements FavListService {
     }
 
     @Override
+    @Transactional
     public void clearAll(User user) {
         FavList favList = favListRepository.findByUser(user);
         favList.deleteAll();

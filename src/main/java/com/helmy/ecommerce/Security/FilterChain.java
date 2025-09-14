@@ -3,12 +3,14 @@ package com.helmy.ecommerce.Security;
 import com.helmy.ecommerce.Util.JWTFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableMethodSecurity
 public class FilterChain {
 
     private final JWTFilter jwtFilter;
@@ -26,7 +28,8 @@ public class FilterChain {
                                 .requestMatchers("/cart", "/cart/**").hasAnyRole("USER","ADMIN")
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/favourite", "/favourite/**").hasAnyRole("USER","ADMIN")
-
+                                .requestMatchers("/orders/**").hasAnyRole("USER","ADMIN")
+                                .requestMatchers("/payment/**").hasAnyRole("USER","ADMIN")
                                 .requestMatchers("/api/auth/verify").permitAll()
                                 .requestMatchers("/api/cart", "/api/cart/**").permitAll()
                                 .requestMatchers("/categories/admin/**").hasRole("ADMIN")

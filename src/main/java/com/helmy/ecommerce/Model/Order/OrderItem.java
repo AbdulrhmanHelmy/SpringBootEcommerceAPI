@@ -1,5 +1,6 @@
 package com.helmy.ecommerce.Model.Order;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.helmy.ecommerce.Model.Product;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class OrderItem {
 
     private int quantity;
     @ManyToOne
+    @JsonIgnore
     private Order order;
 
 }

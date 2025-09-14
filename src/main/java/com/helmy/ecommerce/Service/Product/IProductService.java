@@ -18,5 +18,6 @@ public interface IProductService {
 
     void deleteImageFromProduct(Long productId, Long imageId) throws IOException;
     public Product addImageToProduct(Long productId, ImageDto dto) throws IOException ;
+    void UpdateTheStock(Product product,int q,boolean add);
 
     }

@@ -1,13 +1,14 @@
 package com.helmy.ecommerce.Service.Cart;
 
 import com.helmy.ecommerce.Model.Cart.Cart;
-import com.helmy.ecommerce.Model.Cart.CartItem;
 import com.helmy.ecommerce.Model.Product;
 import com.helmy.ecommerce.Model.User;
 import com.helmy.ecommerce.Repository.CartRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+
 @Service
 public class CartServiceIMPL implements CartService {
     private final CartRepository cartRepository;
@@ -18,6 +19,7 @@ public class CartServiceIMPL implements CartService {
 
 
     @Override
+    @Transactional
     public Cart getOrCreateCart(User user) {
         Cart c = cartRepository.findByUser(user);
         if (c == null) {
@@ -31,30 +33,34 @@ public class CartServiceIMPL implements CartService {
 
 
     @Override
+    @Transactional
     public Cart addItemToCart(User user, Product product, int quantity) {
         Cart c = getOrCreateCart(user);
-        c.addItem(product,quantity);
+        c.addItem(product, quantity);
         return cartRepository.save(c);
     }
 
     @Override
+    @Transactional
     public Cart removeItemFromCart(User user, Product product) {
         Cart c = getOrCreateCart(user);
         c.removeItem(product);
-       return cartRepository.save(c);
+        return cartRepository.save(c);
     }
 
     @Override
+    @Transactional
     public Cart updateItemQuantity(User user, Product product, int quantity) {
         Cart c = getOrCreateCart(user);
-        c.updateQuantity(product,quantity);
-       return cartRepository.save(c);
+        c.updateQuantity(product, quantity);
+        return cartRepository.save(c);
     }
 
     @Override
+    @Transactional
     public Cart deleteAllProducts(User user) {
         Cart c = getOrCreateCart(user);
         c.deleteAll();
-       return cartRepository.save(c);
+        return cartRepository.save(c);
     }
 }

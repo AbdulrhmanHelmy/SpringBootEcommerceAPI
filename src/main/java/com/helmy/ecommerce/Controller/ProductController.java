@@ -61,14 +61,7 @@ public class ProductController {
         return ResponseEntity.ok(apiResponse);
     }
 
-    @DeleteMapping("/admin/{id}")
-    public ResponseEntity<API_Response> deleteProduct(@PathVariable Long id) throws IOException {
-        API_Response apiResponse = new API_Response();
-        productService.deleteProduct(id);
-        apiResponse.setData(null);
-        apiResponse.setMessage(" Product Deleted Successfully");
-        return ResponseEntity.ok(apiResponse);
-    }
+
 
     @DeleteMapping("/admin/img/{id}/{imgId}")
     public ResponseEntity<API_Response> deleteImage(@PathVariable Long id, @PathVariable Long imgId ) throws IOException {
@@ -76,6 +69,15 @@ public class ProductController {
         productService.deleteImageFromProduct(id,imgId);
         apiResponse.setData(null);
         apiResponse.setMessage(" Image Deleted Successfully");
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<API_Response> deleteProduct(@PathVariable Long id) throws IOException {
+        API_Response apiResponse = new API_Response();
+        productService.deleteProduct(id);
+        apiResponse.setData(null);
+        apiResponse.setMessage(" Product Deleted Successfully");
         return ResponseEntity.ok(apiResponse);
     }
 

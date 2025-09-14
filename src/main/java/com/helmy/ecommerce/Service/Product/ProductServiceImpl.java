@@ -34,7 +34,7 @@ public class ProductServiceImpl implements IProductService {
 
     @Override
     @Transactional
-    public Product createProduct(ProductDto productDto){
+    public Product createProduct(ProductDto productDto) {
         Product p = new Product();
         setData(p, productDto);
         return productRepository.save(p);
@@ -56,9 +56,20 @@ public class ProductServiceImpl implements IProductService {
 
         return productRepository.save(p);
     }
+
+    @Override
+    public void UpdateTheStock(Product product, int q, boolean add) {
+        if (add) {
+            product.setStock(product.getStock() + q);
+        } else {
+            product.setStock(product.getStock() - q);
+        }
+       productRepository.save(product);
+    }
+
     @Override
     @Transactional
-    public void deleteImageFromProduct(Long productId, Long imageId) throws IOException{
+    public void deleteImageFromProduct(Long productId, Long imageId) throws IOException {
         Product p = productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFound("Product not found: " + productId));
 

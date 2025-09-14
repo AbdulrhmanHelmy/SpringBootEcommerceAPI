@@ -87,4 +87,10 @@ public class UserService implements IUserService {
         throw new RuntimeException("Principal is not of type User: " + principal.getClass());
     }
 
+    public Double addBalance(User user, Double amount) {
+        user.setBalance(user.getBalance() + amount);
+        userRepository.save(user);
+        return user.getBalance();
+    }
+
 }

@@ -9,6 +9,8 @@ public interface CouponService {
 
     Coupon get(String code);
 
-    Coupon use(Order order, String code);
+    Double use(Order order, String code);
+
+    void cancel(String code);
 
 }
