@@ -43,6 +43,7 @@ public class Order {
     private OrderStatus orderStatus = OrderStatus.NEW;
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Payment payment;
 
 

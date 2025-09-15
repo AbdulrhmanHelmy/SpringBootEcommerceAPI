@@ -1,5 +1,6 @@
 package com.helmy.ecommerce.Service.PaymentStrategy;
 
+import com.helmy.ecommerce.Model.ENUMS.PaymentMethod;
 import com.helmy.ecommerce.Model.Order.Order;
 import com.helmy.ecommerce.Model.Payment;
 import com.helmy.ecommerce.Service.Payment.PaymentService;
@@ -16,10 +17,8 @@ public class TestPay implements PaymentStrategy {
     @Override
     public Payment pay(Order order) {
         System.out.println("Payment processed successfully");
-        System.out.println("Paying "+order.getPayment().getAmount());
-        Payment payment = paymentService.createPayment(order);
-
-        return null;
+        System.out.println("Some operations for  payment ");
+        return paymentService.pay(order,PaymentMethod.TEST);
     }
 
     @Override

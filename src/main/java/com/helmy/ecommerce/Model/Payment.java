@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -17,12 +18,13 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
+
     private User user;
     @OneToOne
     private Order order;
     private Double amount;
 
-    private Date date;
+    private LocalDateTime date;
     @Enumerated(EnumType.STRING)
     private PaymentMethod method;
 

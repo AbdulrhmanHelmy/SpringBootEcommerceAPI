@@ -1,6 +1,7 @@
 package com.helmy.ecommerce.Service.Payment;
 
 import com.helmy.ecommerce.Model.ENUMS.PaymentMethod;
+import com.helmy.ecommerce.Model.ENUMS.PaymentStatus;
 import com.helmy.ecommerce.Model.Order.Order;
 import com.helmy.ecommerce.Model.Payment;
 import com.helmy.ecommerce.Model.User;
@@ -9,6 +10,7 @@ import com.helmy.ecommerce.Repository.PaymentRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 @Service
@@ -23,11 +25,11 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     @Transactional
-    public Payment createPayment(Order order) {
-        Payment payment=new Payment();
-        payment.setAmount(order.getTotalAmount());
-        payment.setOrder(order);
-        payment.setDate(new Date());
+    public Payment pay(Order order,PaymentMethod paymentMethod) {
+        Payment payment=order.getPayment();
+        payment.setMethod(paymentMethod);
+//        code for some payment options
+        payment.setStatus(PaymentStatus.PAID);
         return paymentRepository.save(payment);
     }
 

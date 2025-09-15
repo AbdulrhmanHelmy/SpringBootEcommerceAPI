@@ -2,12 +2,11 @@ package com.helmy.ecommerce.Controller;
 
 import com.helmy.ecommerce.Model.Order.Order;
 import com.helmy.ecommerce.Model.Payment;
+import com.helmy.ecommerce.Response.API_Response;
 import com.helmy.ecommerce.Service.PaymentStrategy.PaymentStrategy;
 import com.helmy.ecommerce.Service.order.OrderService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/payment")
@@ -21,9 +20,12 @@ public class PaymentController {
         this.orderService = orderService;
     }
 
-    @PostMapping("/pay/test")
-    public Payment payTest(@RequestBody Long orderId){
+    @PostMapping("/test")
+    public ResponseEntity<API_Response> payTest(@RequestParam Long orderId){
         Order order = orderService.getOrderById(orderId);
-        return paymentStrategy.pay(order);
+        API_Response apiResponse = new API_Response();
+        apiResponse.setMessage("Success Payment");
+        apiResponse.setData(paymentStrategy.pay(order));
+        return ResponseEntity.ok(apiResponse);
     }
 }

@@ -4,6 +4,8 @@ import com.helmy.ecommerce.DTO.CouponDto;
 import com.helmy.ecommerce.Model.Coupon;
 import com.helmy.ecommerce.Model.Order.Order;
 
+import java.util.List;
+
 public interface CouponService {
     Coupon create(CouponDto couponDto);
 
@@ -12,5 +14,9 @@ public interface CouponService {
     Double use(Order order, String code);
 
     void cancel(String code);
+
+    List<Coupon> getAll();
+    Coupon getById(Long id);
+    Coupon update(Long id, CouponDto couponDto);
 
 }

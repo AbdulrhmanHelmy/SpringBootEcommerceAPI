@@ -26,7 +26,6 @@ public class OpenApiConfig {
                                         .bearerFormat("JWT")));
     }
 
-    // Mapping بين Path patterns والـ Roles
     private final Map<String, List<String>> roleMappings = Map.of(
             "/auth/.*", List.of("PUBLIC"),
             "/api/auth/verify", List.of("PUBLIC"),

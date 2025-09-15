@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class OrderServiceIMPL implements OrderService {
         Order order = new Order();
         payment.setStatus(PaymentStatus.PENDING);
         payment.setUser(user);
-        payment.setDate(new Date());
+        payment.setDate(LocalDateTime.now());
         payment.setOrder(order);
         order.setOrderStatus(OrderStatus.NEW);
         order.setTotalAmount(0.0);

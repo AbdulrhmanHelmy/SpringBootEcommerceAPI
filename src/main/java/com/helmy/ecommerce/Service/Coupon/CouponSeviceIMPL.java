@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class CouponSeviceIMPL implements CouponService {
@@ -77,5 +78,48 @@ public class CouponSeviceIMPL implements CouponService {
         c.setUsedCount(c.getUsedCount()-1);
         couponRepository.save(c);
     }
+
+    @Override
+    public List<Coupon> getAll() {
+        return couponRepository.findAll();
+    }
+
+    @Override
+    public Coupon getById(Long id) {
+        return couponRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFound(" This Id Does Not Exist"));
+    }
+
+    public Coupon update(Long id, CouponDto couponDto) {
+        Coupon coupon = couponRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFound("This Id Does Not Exist"));
+
+        if (couponDto.getCode() != null) {
+            coupon.setCode(couponDto.getCode().toUpperCase());
+        }
+
+        if (couponDto.getMaxUsage() != null) {
+            coupon.setMaxUsage(couponDto.getMaxUsage());
+        }
+
+        if (couponDto.getDiscountType() != null) {
+            coupon.setDiscountType(couponDto.getDiscountType());
+        }
+
+        if (couponDto.getDiscountValue() != null) {
+            coupon.setDiscountValue(couponDto.getDiscountValue());
+        }
+
+        if (couponDto.getMinOrderValue() != null) {
+            coupon.setMinOrderValue(couponDto.getMinOrderValue());
+        }
+
+        if (couponDto.getExpiryDate() != null) {
+            coupon.setExpiryDate(couponDto.getExpiryDate());
+        }
+
+        return couponRepository.save(coupon);
+    }
+
 
 }
